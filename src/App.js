@@ -1,25 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import Login from "./components/Login";
+import TechnicianUpload from "./components/TechnicianUpload";
+import DentistViewer from "./components/DentistViewer";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [role, setRole] = useState(null);
+
+    useEffect(() => {
+        setRole(localStorage.getItem("role"));
+    }, []);
+
+    const logout = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("role");
+        setRole(null);
+    };
+
+    return (
+        <Router>
+            <Routes>
+                <Route
+                    path="/"
+                    element={role ? <Navigate to={role === "technician" ? "/upload" : "/viewer"} /> : <Login setRole={setRole} />}
+                />
+                <Route
+                    path="/upload"
+                    element={role === "technician" ? <TechnicianUpload logout={logout} /> : <Navigate to="/" />}
+                />
+                <Route
+                    path="/viewer"
+                    element={role === "dentist" ? <DentistViewer logout={logout} /> : <Navigate to="/" />}
+                />
+            </Routes>
+        </Router>
+    );
 }
 
 export default App;
