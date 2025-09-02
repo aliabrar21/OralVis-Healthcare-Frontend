@@ -1,70 +1,137 @@
-# Getting Started with Create React App
+# OralVis Healthcare Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+> **Note:** The backend is implemented as a separate project. Make sure the backend is running or use the hosted backend URL below.
 
-## Available Scripts
+**Backend URL:** https://github.com/aliabrar21/OralVis-Healthcare-Backend
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## **Project Overview**
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+This is the **React frontend** for the OralVis Healthcare Web App. It allows:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+* **Technicians** to log in and upload patient scans.
+* **Dentists** to log in and view all stored scans with the ability to download per-scan PDF reports.
 
-### `npm test`
+The frontend communicates with the backend via REST API and handles **role-based routing, authentication, and responsive UI**.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## **Tech Stack**
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+* **React.js** – Frontend framework
+* **React Router DOM** – Client-side routing
+* **Axios** – API calls
+* **jsPDF** – PDF report generation
+* **CSS** – Responsive design
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## **Preconfigured Users**
 
-### `npm run eject`
+Use these credentials to log in:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+| Role       | Email                                                   | Password  |
+| ---------- | ------------------------------------------------------- | --------- |
+| Technician | [technician@example.com](mailto:technician@example.com) | Tech\@123 |
+| Dentist    | [dentist@example.com](mailto:dentist@example.com)       | Dent\@123 |
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+> Users are automatically created by the backend.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## **Installation & Setup**
 
-## Learn More
+1. Clone the repository:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+git clone https://github.com/aliabrar21/OralVis-Healthcare-Frontend
+cd frontend
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+2. Install dependencies:
 
-### Code Splitting
+```bash
+npm install
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+3. Update **API URL** in `src/api.js` (or wherever Axios base URL is set):
 
-### Analyzing the Bundle Size
+```js
+export const API_URL = "https://oralvis-backend.onrender.com";
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+4. Start the development server:
 
-### Making a Progressive Web App
+```bash
+npm start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+* The app will run on `http://localhost:3000`.
 
-### Advanced Configuration
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## **Features**
 
-### Deployment
+### **1️⃣ Login**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+* Email + Password authentication.
+* Redirects to **Upload page** for Technicians and **Viewer page** for Dentists.
+* JWT token stored in `localStorage` for session persistence.
+* Logout button clears session.
 
-### `npm run build` fails to minify
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### **2️⃣ Technician – Upload Page**
+
+* Form fields:
+
+  * Patient Name
+  * Patient ID
+  * Scan Type: RGB
+  * Region: Frontal / Upper Arch / Lower Arch
+  * Scan Image (JPG/PNG)
+* Upload sends data to backend and stores image on Cloudinary.
+* Form submission includes **timestamp** and image URL.
+
+---
+
+### **3️⃣ Dentist – Scan Viewer Page**
+
+* Displays all stored scans in a responsive grid.
+* Shows:
+
+  * Patient Name
+  * Patient ID
+  * Scan Type
+  * Region
+  * Upload Date
+  * Image Thumbnail
+* Each scan has a **Download PDF** button.
+* PDF contains scan details and embedded image.
+
+---
+
+### **4️⃣ Responsive Design**
+
+* Works on desktop, tablet, and mobile.
+* Uses CSS flex/grid for layout.
+* Navigation and buttons adapt to screen size.
+
+---
+
+## **API Endpoints Used**
+
+* **POST `/api/auth/login`** – Login user
+* **POST `/api/scans/upload`** – Upload scan (Technician only)
+* **GET `/api/scans`** – Fetch all scans (Dentist only)
+
+> Ensure the backend is running or use the hosted backend URL above.
+
+---
+
+## **Author**
+
+Abrar Ali – Full Stack Developer
+
+---
